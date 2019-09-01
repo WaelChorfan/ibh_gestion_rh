@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%=title%></title>
+    <% include includes/scripts %>
+</head>
+<body>
+       
+        <div class="container">
+    <h3>
+        Formulaire d'insertion
+    </h3>
+
+
+    <form action="/candidats" method="POST">
+        
+        <input type="text" id="idC" name="idC" hidden>
+
+        <br>
+        
+        Nom:<br>
+        <input type="text" name="nom" required>
+        <br>
+        Prenom:<br>
+        <input type="text" name="prenom" required>
+        <br>
+        CIN:<br>
+        <input type="text" name="cin" required>
+        <br>
+        Telephone:<br>
+        <input type="text" name="tel" required>
+        <br>
+        Email:<br>
+        <input type="text" name="mail" required>
+        <br><br>
+
+        Message:<br>
+        <input type="text" name="msg" required>
+        <br><br>
+
+        
+        <label for="cv"> Upload CV</label>
+        <input type="file" name="cv" id="cv">
+        <br>
+        <input type="submit" value="Envoyer">
+    
+    </form>
+</div>
+</body>
+</html>

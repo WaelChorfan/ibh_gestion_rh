@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <% include includes/scripts %>
+</head>
+
+<body>
+        <% include includes/navbar %>
+        <div class="container">
+    <h3>
+        Liste des employes
+    </h3>
+
+    <table border="1">
+        <!-- fixe -->
+        <tr>
+
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>CIN</th>
+            <th>Date recrutement</th>
+            <th>Fonction</th>
+            <th>Salaire</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+
+        <%  for(var i=0; i < employes.length ; i++){  %>
+
+        <tr>
+         
+            <td > <%= employes[i].nom %> </td>
+            <td> <%= employes[i].prenom %> </td>
+            <td> <%= employes[i].cin %> </td>
+            <td> <%= employes[i].date.replace(/T/g,'   ').substring(0,18) %> </td>
+            <td> <%= employes[i].fonction %> </td>
+            <td> <%= employes[i].salaire %> </td>
+          
+            <td>
+                
+                    <input type="submit" value="Edit" onclick="
+                         document.getElementById('idE').value= '<%= employes[i].idE%>'
+                        document.getElementsByName('nom')[0].value= '<%= employes[i].nom%>'
+                        document.getElementsByName('prenom')[0].value= '<%= employes[i].prenom%>'
+                        document.getElementsByName('cin')[0].value= '<%= employes[i].cin%>'
+                        document.getElementsByName('fonction')[0].value= '<%= employes[i].fonction%>'
+                        document.getElementsByName('salaire')[0].value= '<%= employes[i].salaire%>'
+                        " >
+                
+            </td>
+          
+            <td>
+                <form action="/employes/delete" method="post">
+                    <input hidden type="text" name="idE" value="<%= employes[i].idE %>">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+
+
+        </tr>
+
+        <% } %>
+
+    </table>
+
+
+
+    <!-- separation           -->
+    <hr>
+
+    <h3>
+        Formulaire d'insertion
+    </h3>
+
+
+    <form action="/employes" method="POST">
+        
+        <input type="text" id="idE" name="idE" hidden>
+
+        <br>
+        
+        Nom:<br>
+        <input type="text" name="nom" required>
+        <br>
+        Prenom:<br>
+        <input type="text" name="prenom" required>
+        <br>
+        CIN:<br>
+        <input type="text" name="cin" required>
+        <br>
+        Fonction:<br>
+        <input type="text" name="fonction" required>
+        <br>
+        Salaire:<br>
+        <input type="text" name="salaire" required>
+        <br><br>
+        <input type="submit" value="Enregistrer">
+    </form>
+        </div>
+
+</body>
+
+</html>

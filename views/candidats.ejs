@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <% include includes/scripts %>
+</head>
+
+<body>
+    <% include includes/navbar %>
+    <div class="container">
+
+
+        <h3>
+            Liste des candidats
+        </h3>
+
+        <table border="1">
+            <!-- fixe -->
+            <tr>
+
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>CIN</th>
+                <th>Telephone</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Date canditature</th>
+                <th>Accepter</th>
+                <th>Rejeter</th>
+            </tr>
+
+            <%  for(var i=0; i < candidats.length ; i++){  %>
+
+            <tr>
+
+
+                <td> <%= candidats[i].nom %> </td>
+                <td> <%= candidats[i].prenom %> </td>
+                <td> <%= candidats[i].cin %> </td>
+                <td> <%= candidats[i].tel %> </td>
+                <td> <%= candidats[i].mail %> </td>
+                <td> <%= candidats[i].msg %> </td>
+
+                <td>
+                    <%=
+                candidats[i].dateC.replace(/T/g,'   ').substring(0,18)
+                %>
+
+                </td>
+
+                <!-- <input hidden type="text" name="idC" value="<%= candidats[i].idC %>"> -->
+
+                <td>
+                    <button onmouseover="document.getElementsByName('idCEnt')[0].value='<%=candidats[i].idC%>'" 
+                        class='btn btn-primary' 
+                        data-toggle="modal" 
+                        data-target="#idModalEntretien">
+                        Accepter
+                    </button>
+
+                </td>
+                <td>
+                    <form action="/candidats/delete" method="post">
+                        <input hidden type="text" name="idC" value="<%= candidats[i].idC %>">
+                        <input class='btn btn-danger' type="submit" value="Rejeter">
+                    </form>
+                </td>
+
+
+            </tr>
+
+            <% } %>
+
+        </table>
+
+
+       
+        <!-- form -->
+        <form action="/entretiens" method="post">
+            <!-- Modal -->
+
+            <div class="modal fade"  id="idModalEntretien" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Organiser un entretien</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" name="idCEnt" value="" hidden>
+                       
+                                Selectionner responsable
+                                
+                                <select id="idR" name="idR">
+                                        <option value="0" id="zero"> ----- </option>
+                                        <%
+                                            for ( var i = 0; i < responsables.length; i++ )
+                                            {
+                                                %><option value="<%= responsables[i].idR %>"><%= responsables[i].nom %></option><%
+                                            }
+                                            %>
+                                    </select>
+                                <hr>
+    
+                                Date Entretien
+                                <input type="date" name="dateE"/>
+                                <hr>
+                                Commentaire
+                                <input type="text" name="commentaire">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-secondary"  onclick="document.getElementById('zero').innerHTML='----'">Reset</button>
+                            <input type="submit" class="btn btn-primary" value="Enregistrer"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+
+    </div>
+</body>
+
+</html>

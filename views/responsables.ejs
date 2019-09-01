@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <% include includes/scripts %>
+</head>
+
+<body>
+        <% include includes/navbar %>
+        <div class="container">
+    <h3>
+        Liste des responsables
+    </h3>
+
+    <table border="1">
+        <!-- fixe -->
+        <tr>
+
+            <th>Nom</th>
+            <th>CIN</th>
+            <th>Telephone</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+
+        <%  for(var i=0; i < responsables.length ; i++){  %>
+
+        <tr>
+
+         
+            <td > <%= responsables[i].nom %> </td>
+            <td> <%= responsables[i].cin %> </td>
+            <td> <%= responsables[i].tel %> </td>
+          
+            <td>
+                
+                    <input type="submit" value="Edit" onclick="
+                         document.getElementById('idR').value= '<%= responsables[i].idR%>'
+                        document.getElementsByName('nom')[0].value= '<%= responsables[i].nom%>'
+                        document.getElementsByName('cin')[0].value= '<%= responsables[i].cin%>'
+                        document.getElementsByName('tel')[0].value= '<%= responsables[i].tel%>'
+                      
+                        " >
+                
+            </td>
+          
+            <td>
+                <form action="/responsables/delete" method="post">
+                    <input hidden type="text" name="idR" value="<%= responsables[i].idR %>">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+
+
+        </tr>
+
+        <% } %>
+
+    </table>
+
+
+
+    <!-- separation           -->
+    <hr>
+
+    <h3>
+        Formulaire d'insertion
+    </h3>
+
+
+    <form action="/responsables" method="POST">
+        
+        <input type="text" id="idR" name="idR" hidden>
+
+        <br>
+        
+        Nom:<br>
+        <input type="text" name="nom" required>
+        <br>
+        CIN:<br>
+        <input type="text" name="cin" required>
+        <br>
+        Tel:<br>
+        <input type="text" name="tel" required>
+        <br><br>
+        <input type="submit" value="Enregistrer">
+    </form>
+
+        </div>
+</body>
+
+</html>
