@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
   connection.query('SELECT * from employes  ', function (error, results) {
     if (error) throw error
     var resultArray = Object.values(JSON.parse(JSON.stringify(results)))
-    res.render('employes', { employes: resultArray,title :'Gestion des employés!' })
+    res.render('employes', { employes: resultArray, title: 'Gestion des employés!' })
   })
 
 })
@@ -41,6 +41,30 @@ router.post('/', function (req, res) {
       res.redirect('/employes')
     })
 })
+
+
+
+router.post('/accept', function (req, res) {
+  var r = req.body
+  var q = ' INSERT INTO employes(nom, prenom,date,cin,fonction,salaire) VALUES (?,?,CURRENT_TIMESTAMP(),?,?,?) '
+  var d = [r.nomE, r.prenomE, r.cin, r.fonction, r.salaire]
+  var query = mysql.format(q, d)
+
+  connection.query(query,
+    function (error, results, fields) {
+      if (error) throw error
+
+
+      connection.query('delete from  employes where idE = ' + r.idCandidat,
+        function (error, results, fields) {
+          if (error) throw error
+          res.send('<html><body style="padding: 200px"></body><h1 style="color: blue">' +
+            'Le candidat a été  recruté(e) avec succées !</h1>' +
+            '<h1><a href="http://localhost:5000/listEntretiens">Liste des entretiens</a></h1> </html>')
+        })
+    })
+})
+
 
 
 

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <% include includes/scripts %>
+    <title><%=title%></title>
+</head>
+
+<body>
+    <div class="container mt-4">
+
+
+        <h3>
+            Liste des entretiens
+        </h3>
+
+        <table border="1">
+            <!-- fixe -->
+            <tr>
+                <th>Nom Responsable</th>
+                <th>Nom Candidat</th>
+                <th>Prenom Candidat</th>
+                <th>Email Candidat</th>
+                <th>Date Entretien</th>
+                <th>Message</th>
+                <th>Telechargement CV</th>
+                <th>Confirmer</th>
+            </tr>
+
+            <%  for(var i=0; i < entretiens.length ; i++){  %>
+
+            <tr>
+                 <input type="text" value="<%= entretiens[i].idCandidat %>" id="idCandidat" hidden> 
+                <td> <%= entretiens[i].nomR %> </td>
+                <td> <%= entretiens[i].nomC %> </td>
+                <td> <%= entretiens[i].prenomC %> </td>
+                <td> <%= entretiens[i].mailC %> </td>
+                <td> <%= entretiens[i].dateE.replace(/T/g,'   ').substring(0,18) %> </td>
+                <td> <%= entretiens[i].com %> </td>
+                <!-- <td> <%= entretiens[i].cv %> </td> -->
+
+                <td align="center"> <a href="#"> <span class="fa fa-download"></a></span>
+                </td>
+
+
+                <td>
+                    <button class='btn btn-success' 
+                    onclick=" envoyer('<%= entretiens[i].nomC  %>', 
+                    '<%= entretiens[i].prenomC  %>',
+                    '<%= entretiens[i].idCandidat  %>')"
+                        data-toggle="modal" data-target="#idModalEntretien">
+                        Accepter
+                    </button>
+
+                </td>
+
+
+
+            </tr>
+
+            <% } %>
+
+        </table>
+
+        <!-- form -->
+        <form action="/employes/accept" method="post">
+            <!-- Modal -->
+
+            <div class="modal fade" id="idModalEntretien" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"> Veuillez ajouter le cin ,la fonction et
+                                le salaire du nouveau employé 
+                                <strong id="prenomAffiche"></strong> 
+                            <strong id="nomAffiche" ></strong>
+                            !
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="text" name="nomE" value="" hidden>
+                            <input type="text" name="prenomE" value="" hidden>
+                            <input type="text" name="idCandidat" value="" hidden> 
+                            <hr>
+                            CIN <br> <input type="text" name="cin" required>
+                            <hr>
+                            Salaire <br> <input type="text" name="salaire" required> 
+                            <hr>
+                            Fonction <br> <input type="text" name="fonction" required   >
+                            <hr>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-secondary">Reset</button>
+                            <input type="submit" class="btn btn-primary" value="Enregistrer"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+<script>
+
+function envoyer(nomC,prenomC,idCandidat) {
+$('input[name=nomE]').val(nomC)
+$('#nomAffiche').text(nomC)
+
+$('input[name=prenomE]').val(prenomC)
+$('#prenomAffiche').text(prenomC)
+$('input[name=idCandidat]').val(idCandidat)
+}
+</script>
+</body>
+
+</html>
