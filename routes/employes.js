@@ -53,14 +53,14 @@ router.post('/accept', function (req, res) {
   connection.query(query,
     function (error, results, fields) {
       if (error) throw error
-
-
-      connection.query('delete from  employes where idE = ' + r.idCandidat,
+      console.log("ok");
+      console.log('delete from  candidats where idC = ' + r.idCandidat);
+      connection.query('delete from  candidats where idC = ' + r.idCandidat,
         function (error, results, fields) {
+          console.log(results);
           if (error) throw error
-          res.send('<html><body style="padding: 200px"></body><h1 style="color: blue">' +
-            'Le candidat a été  recruté(e) avec succées !</h1>' +
-            '<h1><a href="http://localhost:5000/listEntretiens">Liste des entretiens</a></h1> </html>')
+      res.render('index',{msg: 'Le candidat a été  recruté(e) avec succées ! !',title:'Gestion RH ADMIN'})
+        
         })
     })
 })

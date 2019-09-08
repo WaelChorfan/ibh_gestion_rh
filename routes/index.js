@@ -6,7 +6,7 @@ var connection = require('../db');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'hello from index' });
+  res.render('index', { title: 'Gestion RH ADMIN',msg:'' });
 });
 
 router.get('/formulaire', function (req, res, next) {
@@ -26,19 +26,19 @@ router.get('/listEntretiens', function (req, res, next) {
  " SELECT responsables.nom as nomR,  entretiens.date as dateE , "+
  " entretiens.commentaire as com, "+
  " candidats.prenom as prenomC , candidats.nom as nomC  "+
- " , candidats.mail as mailC ,entretiens.cv as cv  , entretiens.idC as idCandidat"+
+ " , candidats.mail as mailC ,candidats.cv as cv  , entretiens.idC as idCandidat"+
  " from entretiens "+
  " INNER JOIN responsables "+
  " ON entretiens.idR = responsables.idR  "+
  " INNER JOIN candidats "+
  " ON entretiens.idC = candidats.idC "+
  " where entretiens.date > CURRENT_TIMESTAMP()"
-
+console.log(query);
   connection.query(query,
     function (error, results, fields) {
       if (error) throw error
       var resultArray = Object.values(JSON.parse(JSON.stringify(results)))
-      res.render('listEntretiens', { title: 'Espace Responsable !',entretiens: resultArray});
+      res.render('listEntretiens', { title: 'Espace Responsable !',listEntretiens: resultArray});
     })
 
 
@@ -61,8 +61,9 @@ router.post('/entretiens', function (req, res, next) {
   connection.query(query,
     function (error, results, fields) {
       if (error) throw error
-      res.send('<html><body style="padding: 200px"></body><h1 style="color: blue">' +
-        'L`entretien  a été planifié enregistrée avec succées !</h1></html>')
+
+      res.render('index',{msg: 'L`entretien  a été planifié enregistrée avec succées !!',title:'Gestion RH ADMIN'})
+
     })
 
 

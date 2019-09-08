@@ -1,9 +1,24 @@
 var express = require('express')
 var router = express.Router()
 var mysql = require('mysql')
-
+var multer = require('multer');
+var moment = require('moment');
 var connection = require('../db');
 
+// multer's storage strategy 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/pdf/')
+  },
+  filename: function (req, file, cb) {
+    var newDate = new Date().toLocaleString().replace(/:/g, '-').replace(/,/g, '-')
+      .replace(/ /g, '').replace("/", ".").replace("/", ".").replace("/", ".")
+
+    cb(null, moment().format('YYYY-MM-DD-h-mm-ss-') + file.originalname)
+  }
+})
+
+const upload = multer({ storage: storage })
 
 
 //select
@@ -24,20 +39,24 @@ router.get('/', function (req, res, next) {
 
 //insert or update
 
-router.post('/', function (req, res) {
+router.post('/', upload.single('cv'), function (req, res) {
   var r = req.body
 
-  console.log(r)
 
-  var q = ' INSERT INTO candidats(idC,nom, prenom,cin,tel,mail,msg,dateC) VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP()) '
+
+  var cv = null
+  if (req.file) { cv = req.file.filename }
+  console.log(cv);
+
+  var q = ' INSERT INTO candidats(idC,nom, prenom,cin,tel,mail,msg,dateC,cv) VALUES (?,?,?,?,?,?,?,CURRENT_TIMESTAMP(),?) '
     + ' ON DUPLICATE KEY UPDATE '
-    + ' nom=?,prenom=?,cin=?,tel=?,mail=? ,msg=? '
+    + ' nom=?,prenom=?,cin=?,tel=?,mail=? ,msg=?,cv=? '
 
 
   var idVal = r.idC ? r.idC : '0'
 
-  var d = [idVal, r.nom, r.prenom, r.cin, r.tel, r.mail, r.msg,
-    r.nom, r.prenom, r.cin, r.tel, r.mail, r.msg]
+  var d = [idVal, r.nom, r.prenom, r.cin, r.tel, r.mail, r.msg, cv,
+    r.nom, r.prenom, r.cin, r.tel, r.mail, r.msg, cv]
 
 
   var query = mysql.format(q, d)
@@ -45,8 +64,7 @@ router.post('/', function (req, res) {
   connection.query(query,
     function (error, results, fields) {
       if (error) throw error
-      res.send('<html><body style="padding: 200px"></body><h1 style="color: greenyellow">' +
-        'Votre candidature a été enregistrée avec succées !</h1></html>')
+      res.render('index',{msg: 'Votre candidature a été enregistrée avec succées !',title:'Gestion RH ADMIN'})
     })
 })
 

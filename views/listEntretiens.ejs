@@ -17,6 +17,9 @@
             Liste des entretiens
         </h3>
 
+        <% if (listEntretiens.length == 0) { %>
+        <h1>Aucun entretien en cours ! </h1>
+        <% } else{ %>
         <table border="1">
             <!-- fixe -->
             <tr>
@@ -30,28 +33,30 @@
                 <th>Confirmer</th>
             </tr>
 
-            <%  for(var i=0; i < entretiens.length ; i++){  %>
+            <%  for(var i=0; i < listEntretiens.length ; i++){  %>
 
             <tr>
-                 <input type="text" value="<%= entretiens[i].idCandidat %>" id="idCandidat" hidden> 
-                <td> <%= entretiens[i].nomR %> </td>
-                <td> <%= entretiens[i].nomC %> </td>
-                <td> <%= entretiens[i].prenomC %> </td>
-                <td> <%= entretiens[i].mailC %> </td>
-                <td> <%= entretiens[i].dateE.replace(/T/g,'   ').substring(0,18) %> </td>
-                <td> <%= entretiens[i].com %> </td>
-                <!-- <td> <%= entretiens[i].cv %> </td> -->
-
-                <td align="center"> <a href="#"> <span class="fa fa-download"></a></span>
+                <input type="text" value="<%= listEntretiens[i].idCandidat %>" id="idCandidat" hidden>
+                <td> <%= listEntretiens[i].nomR %> </td>
+                <td> <%= listEntretiens[i].nomC %> </td>
+                <td> <%= listEntretiens[i].prenomC %> </td>
+                <td> <%= listEntretiens[i].mailC %> </td>
+                <td> <%= listEntretiens[i].dateE.replace(/T/g,'   ').substring(0,18) %> </td>
+                <td> <%= listEntretiens[i].com %> </td>
+                
+                <td align="center"> 
+                      <p></p> 
+                    <a href="http://localhost:5000/pdf/<%=listEntretiens[i].cv %>" download>
+                  
+                    <span class="fa fa-download" ></a></span>
+            
                 </td>
 
 
                 <td>
-                    <button class='btn btn-success' 
-                    onclick=" envoyer('<%= entretiens[i].nomC  %>', 
-                    '<%= entretiens[i].prenomC  %>',
-                    '<%= entretiens[i].idCandidat  %>')"
-                        data-toggle="modal" data-target="#idModalEntretien">
+                    <button class='btn btn-success' onclick=" envoyer('<%= listEntretiens[i].nomC  %>', 
+                    '<%= listEntretiens[i].prenomC  %>',
+                    '<%= listEntretiens[i].idCandidat  %>')" data-toggle="modal" data-target="#idModalEntretien">
                         Accepter
                     </button>
 
@@ -64,6 +69,7 @@
             <% } %>
 
         </table>
+        <% } %>
 
         <!-- form -->
         <form action="/employes/accept" method="post">
@@ -74,10 +80,10 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel"> Veuillez ajouter le cin ,la fonction et
-                                le salaire du nouveau employé 
-                                <strong id="prenomAffiche"></strong> 
-                            <strong id="nomAffiche" ></strong>
-                            !
+                                le salaire du nouveau employé
+                                <strong id="prenomAffiche"></strong>
+                                <strong id="nomAffiche"></strong>
+                                !
                             </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -85,15 +91,15 @@
                         </div>
                         <div class="modal-body">
 
-                            <input type="text" name="nomE" value="" hidden>
-                            <input type="text" name="prenomE" value="" hidden>
-                            <input type="text" name="idCandidat" value="" hidden> 
+                            <input type="text" name="nomE" value="" >
+                            <input type="text" name="prenomE" value="" >
+                            <input type="text" name="idCandidat" value="" >
                             <hr>
                             CIN <br> <input type="text" name="cin" required>
                             <hr>
-                            Salaire <br> <input type="text" name="salaire" required> 
+                            Salaire <br> <input type="text" name="salaire" required>
                             <hr>
-                            Fonction <br> <input type="text" name="fonction" required   >
+                            Fonction <br> <input type="text" name="fonction" required>
                             <hr>
                         </div>
                         <div class="modal-footer">
@@ -104,18 +110,25 @@
                 </div>
             </div>
         </form>
+        <div class="row">
+            <div class="col-6 offset-4 mt-4">
+                <a href="http://localhost:5000" class="btn btn-info"> Home </a>
+
+            </div>
+        </div>
+
     </div>
-<script>
+    <script>
 
-function envoyer(nomC,prenomC,idCandidat) {
-$('input[name=nomE]').val(nomC)
-$('#nomAffiche').text(nomC)
+        function envoyer(nomC, prenomC, idCandidat) {
+            $('input[name=nomE]').val(nomC)
+            $('#nomAffiche').text(nomC)
 
-$('input[name=prenomE]').val(prenomC)
-$('#prenomAffiche').text(prenomC)
-$('input[name=idCandidat]').val(idCandidat)
-}
-</script>
+            $('input[name=prenomE]').val(prenomC)
+            $('#prenomAffiche').text(prenomC)
+            $('input[name=idCandidat]').val(idCandidat)
+        }
+    </script>
 </body>
 
 </html>

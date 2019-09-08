@@ -1,53 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><%=title%></title>
     <% include includes/scripts %>
+    <style>
+        label,
+        h3,
+        p {
+            color: rgb(18, 110, 0);
+            font-weight: bold;
+        }
+        #formulaire{
+            background-image: 
+        url("http://localhost:5000/images/aa.png") ;
+        background-repeat: no-repeat;
+        }
+        body{
+            background-image: 
+        url("https://i1.wp.com/perezartsplastiques.com/wp-content/uploads/2013/09/fond-bleu-anime.gif?fit=1024%2C768&ssl=1") ;
+        background-repeat: no-repeat;
+        }
+    </style>
 </head>
+
 <body>
-       
-        <div class="container">
-    <h3>
-        Formulaire d'insertion
-    </h3>
+
+    <div class="container">
+        <h3>
+            Formulaire de candidature
+        </h3>
+
+<div class="row" >
+    <div class="col-8 offset-1 mt-2" id="formulaire">
 
 
-    <form action="/candidats" method="POST">
-        
-        <input type="text" id="idC" name="idC" hidden>
 
-        <br>
-        
-        Nom:<br>
-        <input type="text" name="nom" required>
-        <br>
-        Prenom:<br>
-        <input type="text" name="prenom" required>
-        <br>
-        CIN:<br>
-        <input type="text" name="cin" required>
-        <br>
-        Telephone:<br>
-        <input type="text" name="tel" required>
-        <br>
-        Email:<br>
-        <input type="text" name="mail" required>
-        <br><br>
+        <form action="/candidats" method="POST" enctype="multipart/form-data">
+            <input type="text" id="idC" name="idC" hidden>
 
-        Message:<br>
-        <input type="text" name="msg" required>
-        <br><br>
+            <div class="form-group">
+                <label for="nom">Nom</label>
+                <input type="text" class="form-control" name="nom" id="nom" required>
+            </div>
+            <div class="form-group">
+                <label for="nom">Prenom</label>
+                <input type="text"class="form-control"  name="prenom" id="prenom" required>
+            </div>
+            <div class="form-group">
+                <label for="nom">CIN</label>
+                <input type="text" class="form-control" name="cin" id="cin" required>
+            </div>
+            <div class="form-group">
+                <label for="nom">Telephone</label>
+                <input type="text" class="form-control" name="tel" id="tel" required></div>
+            <div class="form-group">
+                <label for="nom">Email</label>
+                <input type="email" class="form-control" name="mail" id="mail" required></div>
 
-        
-        <label for="cv"> Upload CV</label>
-        <input type="file" name="cv" id="cv">
-        <br>
-        <input type="submit" value="Envoyer">
-    
-    </form>
+            <div class="form-group">
+                <label for="nom">Message</label>
+                <input type="text" class="form-control" name="msg" id="msg" required></div>
+
+            <div class="form-group">
+                <label for="cv"> Upload CV</label>
+                <input type="file" class="form-control" name="cv" id="cv">
+            </div>
+            <br>
+            <input type="submit" value="Envoyer" class="btn btn-warning">
+
+        </form>
+    </div>
 </div>
+        <div class="row">
+            <div class="col-6 offset-4 mt-4">
+                <a href="http://localhost:5000" class="btn btn-info"> Home </a>
+
+            </div>
+        </div>
+
+    </div>
 </body>
+
 </html>
